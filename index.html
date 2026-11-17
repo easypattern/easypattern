@@ -1,46 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EASY PATTERN ELECTRONICS - Lagos</title>
 <style>
-body{font-family:Arial;margin:0;background:#f4f4f4;color:#222}
-header{background:#0a1f44;color:white;padding:20px;text-align:center}
-header h1{margin:0;font-size:28px}
-header p{color:#ffcc00}
-.hero{background:#ffcc00;padding:25px;text-align:center}
-.hero h2{margin:0;font-size:24px}
-.box{background:white;margin:15px;padding:15px;border-radius:10px}
-.box h3{color:#0a1f44}
-.btn{display:block;background:#25D366;color:white;text-align:center;padding:15px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:18px;margin:15px}
-footer{background:#0a1f44;color:white;text-align:center;padding:15px}
+*{box-sizing:border-box}body{font-family:Arial;margin:0;background:#f4f4f4}
+header{background:#0a1f44;color:white;padding:18px;text-align:center;position:sticky;top:0;z-index:10}
+header h1{margin:0;font-size:26px}header p{color:#ffcc00;margin:5px 0}
+.hero{background:#ffcc00;padding:22px;text-align:center}
+.hero h2{margin:0}.hero p{margin:8px 0}
+.search{padding:12px;text-align:center;background:white}
+.search input{width:90%;max-width:500px;padding:12px;border-radius:20px;border:1px solid #ccc;font-size:16px}
+.cats{display:flex;gap:8px;overflow:auto;padding:10px;justify-content:center}
+.cats button{padding:8px 14px;border-radius:20px;border:1px solid #0a1f44;background:white;cursor:pointer;white-space:nowrap}
+.cats button.active{background:#0a1f44;color:white}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding:12px}
+.card{background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.card .emoji{font-size:50px}.card h3{font-size:15px;margin:8px 0 4px;min-height:36px}
+.price{color:#0a1f44;font-weight:bold;font-size:17px}.old{color:#888;text-decoration:line-through;font-size:13px}
+.card button{background:#ffcc00;border:0;padding:10px;width:100%;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px}
+.cartbar{position:fixed;bottom:0;left:0;right:0;background:#0a1f44;color:white;padding:12px;display:flex;justify-content:space-between;align-items:center}
+.cartbar button{background:#25D366;border:0;padding:10px 16px;border-radius:20px;font-weight:bold}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);padding:20px;overflow:auto}
+.modal>div{background:white;border-radius:12px;padding:16px;max-width:500px;margin:auto}
+.item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee}
+footer{padding:20px 20px 80px;text-align:center;background:white;margin-top:10px}
 </style>
 </head>
 <body>
-<header>
-<h1>EASY PATTERN ELECTRONICS</h1>
-<p>Quality Electronics • Lagos, Nigeria</p>
-</header>
-<div class="hero">
-<h2>Welcome to Easy Pattern!</h2>
-<p>TVs, Fans, Fridges, Phones, Accessories & More<br>Best Price. Original Products. Fast Delivery.</p>
-</div>
-<div class="box">
-<h3>🔥 Our Products</h3>
-<p>✅ Smart TVs<br>✅ Standing Fans & Rechargeable Fans<br>✅ Fridges & Freezers<br>✅ Washing Machines<br>✅ Phones & Accessories<br>✅ Sound Systems & Speakers<br>✅ Kitchen Appliances</p>
-</div>
-<div class="box">
-<h3>⭐ Why Buy From Us?</h3>
-<p>✅ Original & Tested Products<br>✅ Affordable Prices<br>✅ Delivery Around Lagos<br>✅ Trusted Seller</p>
-</div>
-<a class="btn" href="https://wa.me/2348000000000">Chat Us On WhatsApp Now</a>
-<div class="box">
-<h3>📍 Visit Us</h3>
-<p>Lagos, Nigeria<br>Open: Monday - Saturday<br>Call / WhatsApp: 0800-000-0000</p>
-<p><b>Change this number to your own number later.</b></p>
-</div>
-<footer>
-<p>EASY PATTERN ELECTRONICS © 2026<br>Your Trusted Electronics Shop in Lagos</p>
-</footer>
-</body>
-</html>
+<header><h1>EASY PATTERN ELECTRONICS</h1><p>Lagos • Quality • Affordable • Delivery Available</p><p>📞 0703 123 4567 | WhatsApp Order Available</p></header>
+<div class="hero"><h2>🔥 Big Deals This Week!</h2><p>TVs, Fridges, Fans, Phones & More — Pay on Delivery in Lagos</p></div>
+<div class="search"><input id="search" placeholder="Search e.g TV, fridge, fan..." oninput="render()"></div>
+<div class="cats" id="cats"></div>
+<div class="grid" id="grid"></div>
+<footer><h3>Why Shop With Us?</h3><p>✅ Genuine Products &nbsp; ✅ Pay on Delivery &nbsp; ✅ Fast Lagos Delivery<br>✅ 1 Year Warranty &nbsp; ✅ Easy WhatsApp Order</p><p><b>Location:</b> Lagos, Nigeria<br><b>WhatsApp:</b> 0703 123 4567</p></footer>
+<div class="cartbar"><span id="cartInfo">🛒 Cart: 0 items - ₦0</span><button onclick="openCart()">View Cart</button></div>
+<div class="modal" id="cartModal"><div><h2>Your Cart</h2><div id="cartItems"></div><p id="total"></p><input id="name" placeholder="Your Name" style="width:100%;padding:10px;margin:5px 0"><input id="addr" placeholder="Delivery Address in Lagos" style="width:100%;padding:10px;margin:5px 0"><button onclick="checkout()" style="width:100%;padding:12px;background:#25D366;border:0;border-radius:8px;font-weight:bold">Order on WhatsApp</button><button onclick="closeCart()" style="width:100%;padding:10px;margin-top:8px">Close</button></div></div>
+<script>
+const products=[
+{id:1,name:"32\" LED Smart TV",cat:"TV",price:145000,old:180000,emoji:"📺"},
+{id:2,name:"43\" Smart TV 4K",cat:"TV",price:235000,old:290000,emoji:"📺"},
+{id:3,name:"55\" Smart TV 4K",cat:"TV",price:385000,old:450000,emoji:"📺"},
+{id:4,name:"Double Door Fridge",cat:"Fridge",price:320000,old:380000,emoji:"❄️"},
+{id:5,name:"Single Door Fridge",cat:"Fridge",price:195000,old:230000,emoji:"🧊"},
+{id:6,name:"Chest Freezer 200
