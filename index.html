@@ -44,4 +44,51 @@ const products=[
 {id:3,name:"55\" Smart TV 4K",cat:"TV",price:385000,old:450000,emoji:"📺"},
 {id:4,name:"Double Door Fridge",cat:"Fridge",price:320000,old:380000,emoji:"❄️"},
 {id:5,name:"Single Door Fridge",cat:"Fridge",price:195000,old:230000,emoji:"🧊"},
-{id:6,name:"Chest Freezer 200
+{id:6,name:"Chest Freezer 200L",cat:"Fridge",price:285000,old:340000,emoji:"🧊"},
+{id:7,name:"Standing Fan 18\"",cat:"Fan",price:45000,old:58000,emoji:"🌀"},
+{id:8,name:"Rechargeable Fan",cat:"Fan",price:68000,old:85000,emoji:"🔋"},
+{id:9,name:"Ceiling Fan",cat:"Fan",price:52000,old:65000,emoji:"🌀"},
+{id:10,name:"Samsung Phone A15",cat:"Phone",price:185000,old:210000,emoji:"📱"},
+{id:11,name:"Tecno Spark 20",cat:"Phone",price:135000,old:160000,emoji:"📱"},
+{id:12,name:"Itel Power Bank 20000mAh",cat:"Phone",price:25000,old:32000,emoji:"🔋"},
+{id:13,name:"Washing Machine 7kg",cat:"Home",price:245000,old:295000,emoji:"👕"},
+{id:14,name:"Microwave Oven",cat:"Home",price:85000,old:105000,emoji:"🍲"},
+{id:15,name:"Electric Kettle",cat:"Home",price:22000,old:28000,emoji:"☕"},
+{id:16,name:"Bluetooth Speaker",cat:"Home",price:35000,old:45000,emoji:"🔊"},
+{id:17,name:"Air Conditioner 1HP",cat:"Home",price:295000,old:350000,emoji:"❄️"},
+{id:18,name:"Gas Cooker 4 Burner",cat:"Home",price:175000,old:210000,emoji:"🔥"},
+];
+let cart={},filter="All";
+const cats=["All","TV","Fridge","Fan","Phone","Home"];
+document.getElementById("cats").innerHTML=cats.map(c=>`<button class="${c===filter?'active':''}" onclick="setCat('${c}')">${c}</button>`).join("");
+function setCat(c){filter=c;document.getElementById("cats").innerHTML=cats.map(x=>`<button class="${x===filter?'active':''}" onclick="setCat('${x}')">${x}</button>`).join("");render();}
+function render(){
+let q=document.getElementById("search").value.toLowerCase();
+let list=products.filter(p=>(filter==="All"||p.cat===filter)&&p.name.toLowerCase().includes(q));
+document.getElementById("grid").innerHTML=list.map(p=>`<div class="card"><div class="emoji">${p.emoji}</div><h3>${p.name}</h3><div><span class="old">₦${p.old.toLocaleString()}</span></div><div class="price">₦${p.price.toLocaleString()}</div><button onclick="add(${p.id})">Add to Cart</button></div>`).join("")||"<p style='grid-column:1/-1;text-align:center'>No product found</p>";
+}
+function add(id){cart[id]=(cart[id]||0)+1;update();}
+function update(){
+let count=0,total=0;for(let id in cart){let p=products.find(x=>x.id==id);count+=cart[id];total+=p.price*cart[id];}
+document.getElementById("cartInfo").innerText=`🛒 Cart: ${count} items - ₦${total.toLocaleString()}`;
+}
+function openCart(){
+let html="";let total=0;
+for(let id in cart){let p=products.find(x=>x.id==id);let sub=p.price*cart[id];total+=sub;html+=`<div class="item"><span>${p.name} x ${cart[id]}</span><b>₦${sub.toLocaleString()}</b></div>`;}
+document.getElementById("cartItems").innerHTML=html||"Cart is empty";
+document.getElementById("total").innerHTML=`<b>Total: ₦${total.toLocaleString()}</b>`;
+document.getElementById("cartModal").style.display="block";
+}
+function closeCart(){document.getElementById("cartModal").style.display="none";}
+function checkout(){
+let name=document.getElementById("name").value||"Customer";
+let addr=document.getElementById("addr").value||"Lagos";
+let msg=`Hello EASY PATTERN ELECTRONICS! I want to order:%0A`;
+for(let id in cart){let p=products.find(x=>x.id==id);msg+=`- ${p.name} x ${cart[id]} = ₦${(p.price*cart[id]).toLocaleString()}%0A`;}
+msg+=`%0AName: ${name}%0AAddress: ${addr}`;
+window.open("https://wa.me/2347031234567?text="+msg,"_blank");
+}
+render();update();
+</script>
+</body>
+</html>
